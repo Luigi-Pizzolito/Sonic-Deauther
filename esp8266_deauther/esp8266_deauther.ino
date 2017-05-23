@@ -1,18 +1,30 @@
 /*
-  ===========================================
-       Copyright (c) 2017 Stefan Kremser
-              github.com/spacehuhn
-  ===========================================
+  ====================================================================
+       Copyright (c) 2017 Stefan Kremser & Luigi Pizzolito
+              github.com/spacehuhn https://github.com/Gansgter45671
+  ====================================================================
 */
 
 #include <Arduino.h>
 #include <IRremoteESP8266.h>
+
+//IR Stuff
 unsigned int tv[67] = {9000, 4600, 550, 650, 550, 600, 550, 650, 550, 650, 550, 600, 550, 650, 500, 1750, 550, 650, 550, 1750, 600, 1750, 550, 1750, 550, 1750, 550, 1750, 550, 1750, 500, 700, 550, 1750, 500, 700, 550, 1750, 550, 650, 550, 600, 550, 1750, 550, 600, 550, 650, 500, 700, 550, 1750, 550, 650, 550, 1750, 500, 1800, 550, 650, 500, 1750, 550, 1750, 550, 1750, 550}; // UNKNOWN 1A2EEC3B
-IRsend irsend(4); //an IR emitter led is connected to GPIO pin 4
+int RECV_PIN = 14;
+IRrecv irrecv(RECV_PIN);
+IRsend irsend(4);
+boolean recording = false;
+decode_results results;
+irparams_t save;        // A place to copy the interrupt state while decoding.
+String IRccode;
+
+//internet stuff
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <FS.h>
+
+//I/O Stuff
 #define spin 12
 #define tpin 13
 #define uvpin 15
@@ -20,7 +32,7 @@ bool ts = false;
 bool tt = false;
 bool tuv = false;
 
-//#define resetPin 5 /* <-- comment out or change if you need GPIO 4 for other purposes */
+#define resetPin 0 /* <-- comment out or change if you need GPIO 4 for other purposes */
 //#define USE_DISPLAY /* <-- uncomment that if you want to use the display */
 
 
@@ -140,6 +152,49 @@ void startWiFi(bool start) {
   clientScan.clearList();
 }
 
+//============IR=============
+
+void IRmanage() {
+  if (recording) {
+    if (irrecv.decode(&results, &save)) {
+      Serial.println("IR code recorded!");
+      //irrecv.resume(); // Receive the next value
+      Serial.print("Recorded ");
+      Serial.print(results.rawlen);
+      Serial.println(" intervals.");
+      dumpCode(&results);
+      recording = false;
+    }
+  }
+}
+
+void dumpCode(decode_results *results) {
+  Serial.println(results->value, HEX);
+  IRccode = (results->value);
+}
+
+void IRrecord() {
+  recording = true;
+  server.send ( 200, "text/json", "true");
+}
+
+void sendIR() {
+  if (!recording) {
+    Serial.println("Sending recorded IR signal!");
+    irsend.begin();
+    irsend.sendRaw((unsigned int*) results.rawbuf, results.rawlen, 38);
+    server.send ( 200, "text/json", "true");
+    irrecv.enableIRIn();
+  }
+}
+
+void sendTV() {
+  irsend.begin();
+  irsend.sendRaw(tv, 67, 38);
+  server.send ( 200, "text/json", "true");
+  Serial.println("true");
+  irrecv.enableIRIn();
+}
 
 //==========Sensors==========
 //call function
@@ -175,13 +230,14 @@ void updateSensors() {
   page += vbat;
   page += ",";
   page += millis();
+  //ir status
+  page += ",";
+  page += recording;
+  page += ",";
+  page += IRccode;
   server.send ( 200, "text/json", page);
 }
-void sendIR() {
-  irsend.sendRaw(tv, 67, 38);
-  server.send ( 200, "text/json", "true");
-  Serial.println("true");
-}
+
 void tgl1() {
   //do cool stuff
   ts = !ts;
@@ -193,7 +249,7 @@ void tgl1() {
 void tgl2() {
   //do cool stuff
   tt = !tt;
-  digitalWrite(tpin, !tt);
+  digitalWrite(tpin, tt);
   server.send ( 200, "text/json", "true"+String(tt)); //tell server it worked.
   Serial.println("true"+String(tt));
 }
@@ -430,7 +486,7 @@ void resetSettings() {
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200, SERIAL_8N1, SERIAL_TX_ONLY);
   pinMode(A0, INPUT);
   pinMode(spin, OUTPUT);
   pinMode(tpin, OUTPUT);
@@ -484,8 +540,11 @@ void setup() {
   server.on("/tgl1.json", tgl1);
   server.on("/tgl2.json", tgl2);
   server.on("/tgl3.json", tgl3);
-  server.on("/ir.json", sendIR);
   server.on("/update.json", updateSensors);
+  /* IR Stuff */
+  server.on("/ir.json", sendTV);
+  server.on("/IRrcd.json", IRrecord);
+  server.on("/IRsnd.json", sendIR);
 
   /* JS */
   server.on("/js/apscan.js", loadAPScanJS);
@@ -526,7 +585,8 @@ void setup() {
   server.on("/addClient.json", addClient);
 
   server.begin();
-  irsend.begin();
+  //irsend.begin();
+  irrecv.enableIRIn();  // Start the receiver
 }
 
 void loop() {
@@ -535,6 +595,7 @@ void loop() {
   } else {
     server.handleClient();
     attack.run();
+    IRmanage();
   }
 
   if (Serial.available()) {
@@ -543,4 +604,9 @@ void loop() {
       settings.reset();
     }
   }
+
+
+  //IRmanage();
 }
+
+

@@ -7,6 +7,7 @@ function tgl1() {
    			document.getElementById("b1").className = "button-primary";
    		}});
 }
+
 function tgl2() {
 	getResponse("tgl2.json", function(responseText) {
 		console.log(responseText);
@@ -16,6 +17,7 @@ function tgl2() {
    			document.getElementById("b2").className = "button-primary";
    		}});
 }
+
 function tgl3() {
 	getResponse("tgl3.json", function(responseText) {
 		console.log(responseText);
@@ -25,6 +27,7 @@ function tgl3() {
    			document.getElementById("b3").className = "button-primary";
    		}});
 }
+
 function ir() {
 	getResponse("ir.json", function(responseText) {
 		console.log(responseText);
@@ -32,6 +35,19 @@ function ir() {
    			alert("Sent IR Code!");
    		}});
 }
+
+function ir2() {
+	getResponse("IRrcd.json", function(responseText) {});
+}
+
+function ir3() {
+	getResponse("IRsnd.json", function(responseText) {
+		console.log(responseText);
+	if (responseText == "true") {
+   			alert("Sent IR Code!");
+   		}});
+	}
+
 
 setInterval(function(){ update(); }, 500);
 
@@ -47,5 +63,11 @@ function update() {
 		document.getElementById("mov").innerHTML = intArr[2]+" mov/min";
 		document.getElementById("vbat").innerHTML = intArr[3]+" V";
 		document.getElementById("uptime").innerHTML = intArr[4];
+		if (intArr[5] == 1) {
+			document.getElementById("capt").className = "button-primary";
+		} else if (intArr[5] == 0) {
+			document.getElementById("capt").className = "button";
+		}
+		document.getElementById("disp").innerHTML = "Send "+intArr[6];
 	});
 }

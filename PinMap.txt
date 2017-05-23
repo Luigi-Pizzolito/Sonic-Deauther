@@ -1,0 +1,17 @@
+Pin mapping
+
+GPIO_16 (USER)                 -->
+GPIO_05                        -->
+GPIO_04                        -->     IR Emitter
+GPIO_00 (FLASH)                -->     Lockup-Reset
+GPIO_02                        -->
+GPIO_14                        ->     IR Receiver
+GPIO_12                        -->     Sonic Pin
+GPIO_13                        -->     Torch Pin
+GPIO_15                        -->     UV Torch Pin
+GPIO_03 (RX)                   -->
+GPIO_01 (TX)                   -->
+
+
+GPIO_10 (SD3)
+GPIO_09 (SD2)
