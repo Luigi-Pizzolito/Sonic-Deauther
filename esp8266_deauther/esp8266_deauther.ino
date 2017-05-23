@@ -1,8 +1,8 @@
 /*
-  ===========================================
-       Copyright (c) 2017 Stefan Kremser
-              github.com/spacehuhn
-  ===========================================
+  ====================================================================
+       Copyright (c) 2017 Stefan Kremser & Luigi Pizzolito
+              github.com/spacehuhn https://github.com/Gansgter45671
+  ====================================================================
 */
 
 #include <Arduino.h>
