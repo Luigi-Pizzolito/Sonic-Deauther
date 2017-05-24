@@ -1,7 +1,7 @@
 /*
   ====================================================================
        Copyright (c) 2017 Stefan Kremser & Luigi Pizzolito
-              github.com/spacehuhn https://github.com/Gansgter45671
+              github.com/spacehuhn https://github.com/Gangster45671
   ====================================================================
 */
 
