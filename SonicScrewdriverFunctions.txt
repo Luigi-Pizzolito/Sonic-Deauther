@@ -1,0 +1,29 @@
+Sonic Screwdriver Functions
+	Sonic Scredriver SFX&LFX				√
+	Mode Selection (Rotary Encoder)
+	Activation Button								√
+	Readout
+	Serial Comunication							√
+	IR Comunication									√
+	Wi-Fi Comunication							√
+	Rechargeable Battery						√
+	EMF Detector
+	RGB Light
+	UV Light												√
+	Light														√
+
+Activation button
+	ATtiny85 Power
+
+DIP Switch Functions
+	01 ESP Power
+	02	-> DIP 0
+	03	-> DIP 1
+	04 Lockup-Reset
+
+Modes(binary with DIP0-1):												ADCv:
+ESPOFF SFX&LFX (ATtiny>VAR Pitch)										0
+	0 TV-B-Gone (ESP>sendIR, ATtiny>MED Pitch)				256
+	1	Blink Temp. (ESP>blinkTMP, ATtiny>)							512
+	2 Torch (ESP>Nothing, ATtiny>LOW Pitch)						768
+	3 UV Torch (ESP>Nothing, ATtiny>HIGH Pitch)				1024

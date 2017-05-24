@@ -1,17 +1,33 @@
 Pin mapping
 
-GPIO_16 (USER)                 -->
-GPIO_05                        -->
-GPIO_04                        -->     IR Emitter
-GPIO_00 (FLASH)                -->     Lockup-Reset
-GPIO_02                        -->
-GPIO_14                        ->     IR Receiver
-GPIO_12                        -->     Sonic Pin
-GPIO_13                        -->     Torch Pin
-GPIO_15                        -->     UV Torch Pin
-GPIO_03 (RX)                   -->
-GPIO_01 (TX)                   -->
+ESP8266
+GPIO_16 (USER) [R/W Only]      -->
+GPIO_05                        -> Effect set (PWM)
+GPIO_04                        --> IR Emitter
+GPIO_00 (FLASH)                -->
+GPIO_02                        -> Activation Button
+GPIO_14                        --> IR Receiver
+GPIO_12                        --> Sonic Pin
+GPIO_13                        --> Torch Pin
+GPIO_15                        --> UV Torch Pin
+GPIO_03 (RX)                   ->  Lockup-Reset
+GPIO_01 (TX)                   --> Serial...
+A0                             ->  LM35 Vout
+GPIO_10 (SD3)                  ->  DIP 0
+GPIO_09 (SD2)                  ->  DIP 1
 
+ATtiny85
+0 --> Green LED
+1 --> UV LED
+2 -->
+3 --> Buzzer
+4 -> Effect set (ADC)
 
-GPIO_10 (SD3)
-GPIO_09 (SD2)
+ATtiny85
+  Read ADC and decode.
+    Set pitch
+    Turn on Torch or UV Torch.
+ESP8266
+  Read Switches and decode.
+    Encode and output PWM
+    sendIR or blinkTMP
