@@ -21,9 +21,8 @@ DIP Switch Functions
 	03	-> DIP 1
 	04 Lockup-Reset
 
-Modes(binary with DIP0-1):												ADCv:
-ESPOFF SFX&LFX (ATtiny>VAR Pitch)										0
-	0 TV-B-Gone (ESP>sendIR, ATtiny>MED Pitch)				256
-	1	Blink Temp. (ESP>blinkTMP, ATtiny>)							512
-	2 Torch (ESP>Nothing, ATtiny>LOW Pitch)						768
-	3 UV Torch (ESP>Nothing, ATtiny>HIGH Pitch)				1024
+Modes(binary with DIP0-1):
+	0 SFX&LFX (ATtiny>VAR Pitch)
+	1 Torch (ESP>Nothing, ATtiny>LOW Pitch)
+	2	TV-B-Gone (ESP>sendIR, ATtiny>MED Pitch)
+	3 UV Torch (ESP>Nothing, ATtiny>HIGH Pitch)

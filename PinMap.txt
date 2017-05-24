@@ -2,7 +2,7 @@ Pin mapping
 
 ESP8266
 GPIO_16 (USER) [R/W Only]      -->
-GPIO_05                        -> Effect set (PWM)
+//GPIO_05
 GPIO_04                        --> IR Emitter
 GPIO_00 (FLASH)                -->
 GPIO_02                        -> Activation Button
@@ -19,15 +19,14 @@ GPIO_09 (SD2)                  ->  DIP 1
 ATtiny85
 0 --> Green LED
 1 --> UV LED
-2 -->
+2 -> DIP 0
 3 --> Buzzer
-4 -> Effect set (ADC)
+4 -> DIP 1
 
 ATtiny85
-  Read ADC and decode.
+  Read Switches and decode.
     Set pitch
     Turn on Torch or UV Torch.
 ESP8266
   Read Switches and decode.
-    Encode and output PWM
     sendIR or blinkTMP
