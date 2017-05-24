@@ -194,6 +194,7 @@ void sendTV() {
   irsend.begin();
   //irsend.sendRaw(tv, 67, 38);
   send(tv, 67);
+  server.send ( 200, "text/json", "true");
   sendSony(0xA90, 12); //SONY, NEC
   sendNEC(0x20DF10EF); //LG, SAMSUNG, VIZIO, HISENSE, KENWOOD, PROSCAN, ZENITH
   sendRC5(0x80C); //PHILIPS, MAGNAVOX, GRUNDIG, MEDION, SILVERCREST
@@ -266,8 +267,7 @@ void sendTV() {
   sendNEC(0xDE010FC0); //AIWA
   sendNEC(0xFD00FF); //TELEFUNKEN
   sendNEC(0x8E7152AD); //TOSHIBA
-  server.send ( 200, "text/json", "true");
-  Serial.println("true");
+  Serial.println("finished TV-B-GONE");
   irrecv.enableIRIn();
 }
 void pause() {
