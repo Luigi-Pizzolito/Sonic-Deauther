@@ -1,11 +1,11 @@
-#include <IRremote.h>
-#include <IRremoteInt.h>
-#include <avr/pgmspace.h>
+#include <IRremoteESP8266.h>
+//#include <IRremoteInt.h>
+//#include <avr/pgmspace.h>
 
-IRsend irsend;
+IRsend irsend(4);
 
-const PROGMEM uint16_t sony_old[22] = {550, 1450, 550, 450, 600, 1450, 550, 450, 600, 1500, 550, 450, 550, 500, 550, 500, 550, 500, 550, 450, 600};
-const PROGMEM uint16_t grundig1[22] = {550, 2600, 550, 450, 600, 450, 550, 500, 500, 500, 550, 500, 500, 500, 550, 500, 550, 500, 550, 450, 550};
+const PROGMEM unsigned int sony_old[22] = {550, 1450, 550, 450, 600, 1450, 550, 450, 600, 1500, 550, 450, 550, 500, 550, 500, 550, 500, 550, 450, 600};
+const PROGMEM unsigned int grundig1[22] = {550, 2600, 550, 450, 600, 450, 550, 500, 500, 500, 550, 500, 500, 500, 550, 500, 550, 500, 550, 450, 550};
 
 void setup() {
 }
@@ -61,7 +61,6 @@ void loop() {
   sendNEC(0x3E060FC0); //AIWA
   sendRC5(0xC3D); //GRUNDIG FINE ARTS
   sendNEC(0xFB38C7); //GRUNDIG, MEDION
-  sendXSAT(0x14, 0x15); //GRUNDIG, XSAT
   sendRC5(0x301); //SHARP
   sendRC5(0xB01); //SHARP
   sendSamsung(0x909C837); //SAMSUNG TV3
@@ -119,11 +118,6 @@ void sendSony(unsigned int code, int bits) {
 
 void sendSamsung(unsigned long code) {
   irsend.sendSAMSUNG(code, 32);
-  pause();
-}
-
-void sendXSAT(unsigned char adr, unsigned char cmd) {
-  irsend.sendXSAT(adr, cmd);
   pause();
 }
 
