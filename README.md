@@ -1,10 +1,10 @@
 # Sonic-Deauther
 ESP8266 Pen-testing Deauther made into a sonic screwdriver controller.
 I'm developing a Sonic Screwdriver(Doctor Who) using a ESP8266 Wi-Fi Module and an ATtiny85 AVR.
-# Original Code
+## Original Code
 https://github.com/spacehuhn/esp8266_deauther
 
-# Functions
+## Functions
 * WiFi Deauther
 * WiFi Control
 * Sonic SFX, LFX
