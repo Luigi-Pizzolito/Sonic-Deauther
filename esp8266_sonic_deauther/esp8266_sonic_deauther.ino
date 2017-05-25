@@ -8,6 +8,10 @@
 #include <Arduino.h>
 #include <IRremoteESP8266.h>
 
+//PUI Stuff
+boolean buttonState = 1;         // current state of the button
+boolean lastButtonState = 1;     // previous state of the button
+
 //IR Stuff
 const PROGMEM unsigned int sony_old[22] = {550, 1450, 550, 450, 600, 1450, 550, 450, 600, 1500, 550, 450, 550, 500, 550, 500, 550, 500, 550, 450, 600};
 const PROGMEM unsigned int grundig1[22] = {550, 2600, 550, 450, 600, 450, 550, 500, 500, 500, 550, 500, 500, 500, 550, 500, 550, 500, 550, 450, 550};
@@ -158,8 +162,15 @@ void startWiFi(bool start) {
 }
 //============PUI============
 void DoSonic() {
-  if (digitalRead(button)) {
-    /*
+  buttonState = digitalRead(button);
+
+  // compare the buttonState to its previous state
+  if (buttonState != lastButtonState) {
+    // if the state has changed, increment the counter
+    if (buttonState == HIGH) {
+      // if the current state is HIGH then the button
+      // went from off to on:
+      /*
       if (dip0 == false && dip1 == false) {
       //normal mode
       }
@@ -176,7 +187,17 @@ void DoSonic() {
       //UV Torch Mode
       }
     */
+    } else {
+      // if the current state is LOW then the button
+      // went from on to off:
+      Serial.println("off");
+    }
+    // Delay a little bit to avoid bouncing
+    delay(50);
   }
+  // save the current state as the last state,
+  //for next time through the loop
+  lastButtonState = buttonState;
 }
 //============IR=============
 
