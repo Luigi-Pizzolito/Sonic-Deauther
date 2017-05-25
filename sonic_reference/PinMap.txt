@@ -27,4 +27,4 @@ ATtiny85
     Turn on Torch or UV Torch.
 ESP8266
   Read Switches and decode.
-    sendIR or blinkTMP
+    sendIR

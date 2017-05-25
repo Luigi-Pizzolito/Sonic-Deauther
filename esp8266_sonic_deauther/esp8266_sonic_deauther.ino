@@ -27,6 +27,7 @@ String IRccode;
 #include <FS.h>
 
 //I/O Stuff
+#define button 2
 #define spin 12
 #define tpin 13
 #define uvpin 15
@@ -155,7 +156,28 @@ void startWiFi(bool start) {
   else stopWifi();
   clientScan.clearList();
 }
-
+//============PUI============
+void DoSonic() {
+  if (button) {
+    /*
+      if (dip0 == false && dip1 == false) {
+      //normal mode
+      }
+      if (dip0 == false && dip1 == true) {
+      //Torch Mode
+      }
+    */
+    if (dip0 == true && dip1 == false) {
+      //TV-B-Gone Mode
+      sendTV();
+    }
+    /*
+      if (dip0 == true && dip1 == true) {
+      //UV Torch Mode
+      }
+    */
+  }
+}
 //============IR=============
 
 void IRmanage() {
@@ -354,24 +376,24 @@ void tgl1() {
   //do cool stuff
   ts = !ts;
   digitalWrite(spin, ts);
-  server.send ( 200, "text/json", "true"+String(ts)); //tell server it worked.
-  Serial.println("true"+String(ts));
+  server.send ( 200, "text/json", "true" + String(ts)); //tell server it worked.
+  Serial.println("true" + String(ts));
 }
 
 void tgl2() {
   //do cool stuff
   tt = !tt;
   digitalWrite(tpin, tt);
-  server.send ( 200, "text/json", "true"+String(tt)); //tell server it worked.
-  Serial.println("true"+String(tt));
+  server.send ( 200, "text/json", "true" + String(tt)); //tell server it worked.
+  Serial.println("true" + String(tt));
 }
 
 void tgl3() {
   //do cool stuff
   tuv = !tuv;
   digitalWrite(uvpin, tuv);
-  server.send ( 200, "text/json", "true"+String(tuv)); //tell server it worked.
-  Serial.println("true"+String(tuv));
+  server.send ( 200, "text/json", "true" + String(tuv)); //tell server it worked.
+  Serial.println("true" + String(tuv));
 }
 
 
@@ -600,6 +622,9 @@ void resetSettings() {
 void setup() {
   Serial.begin(115200, SERIAL_8N1, SERIAL_TX_ONLY);
   pinMode(A0, INPUT);
+  pinMode(button, INPUT);
+  pinMode(dip0, INPUT);
+  pinMode(dip1, INPUT);
   pinMode(spin, OUTPUT);
   pinMode(tpin, OUTPUT);
   pinMode(uvpin, OUTPUT);
@@ -625,7 +650,10 @@ void setup() {
 
 #ifdef resetPin
   pinMode(resetPin, INPUT_PULLUP);
-  if (digitalRead(resetPin) == HIGH) {settings.reset();Serial.println("Lockup reset!!");}
+  if (digitalRead(resetPin) == HIGH) {
+    settings.reset();
+    Serial.println("Lockup reset!!");
+  }
 #endif
 
   startWifi();
@@ -708,6 +736,7 @@ void loop() {
     server.handleClient();
     attack.run();
     IRmanage();
+    DoSonic();
   }
 
   if (Serial.available()) {
@@ -716,9 +745,6 @@ void loop() {
       settings.reset();
     }
   }
-
-
-  //IRmanage();
 }
 
 
