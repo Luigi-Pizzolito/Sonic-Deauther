@@ -1,24 +1,6 @@
 Pin mapping
 
 ESP8266
-/*
-GPIO_16 (Wake) [R/W Only]      -->
-GPIO_05
-GPIO_04                        --> IR Emitter
-GPIO_00 (FLASH)                -->
-GPIO_02                        -> Activation Button
-GPIO_14                        --> IR Receiver
-GPIO_12                        --> Sonic Pin
-GPIO_13                        --> Torch Pin
-GPIO_15                        --> UV Torch Pin
-GPIO_03 (RX)                   ->  Lockup-Reset
-GPIO_01 (TX)                   --> Serial...
-A0                             ->  LM35 Vout
-//GPIO_10 (SD3)                  ->  DIP 0
-//GPIO_09 (SD2)                  ->  DIP 1
-*/
-
-new ESP8266 Pinotu
 GPIO16 D0   DIP0
 GPIO05 D1   DIP1
 GPIO04 D2   IR Emitter

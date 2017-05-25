@@ -1,8 +1,8 @@
 Sonic Screwdriver Functions
 	Sonic Scredriver SFX&LFX				√
-	Mode Selection (Rotary Encoder)
+	Mode Selection (Rotary Encoder)	√
 	Activation Button								√
-	Readout
+	Readout													√
 	Serial Comunication							√
 	IR Comunication									√
 	Wi-Fi Comunication							√

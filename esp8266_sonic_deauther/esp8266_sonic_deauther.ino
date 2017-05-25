@@ -30,6 +30,8 @@ String IRccode;
 #define spin 12
 #define tpin 13
 #define uvpin 15
+#define dip0 16 //or 3
+#define dip1 5
 bool ts = false;
 bool tt = false;
 bool tuv = false;
@@ -623,7 +625,7 @@ void setup() {
 
 #ifdef resetPin
   pinMode(resetPin, INPUT_PULLUP);
-  if (digitalRead(resetPin) == LOW) settings.reset();
+  if (digitalRead(resetPin) == HIGH) {settings.reset();Serial.println("Lockup reset!!");}
 #endif
 
   startWifi();
