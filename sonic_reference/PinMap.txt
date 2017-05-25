@@ -1,8 +1,9 @@
 Pin mapping
 
 ESP8266
-GPIO_16 (USER) [R/W Only]      -->
-//GPIO_05
+/*
+GPIO_16 (Wake) [R/W Only]      -->
+GPIO_05
 GPIO_04                        --> IR Emitter
 GPIO_00 (FLASH)                -->
 GPIO_02                        -> Activation Button
@@ -13,8 +14,23 @@ GPIO_15                        --> UV Torch Pin
 GPIO_03 (RX)                   ->  Lockup-Reset
 GPIO_01 (TX)                   --> Serial...
 A0                             ->  LM35 Vout
-GPIO_10 (SD3)                  ->  DIP 0
-GPIO_09 (SD2)                  ->  DIP 1
+//GPIO_10 (SD3)                  ->  DIP 0
+//GPIO_09 (SD2)                  ->  DIP 1
+*/
+
+new ESP8266 Pinotu
+GPIO16 D0   DIP0
+GPIO05 D1   DIP1
+GPIO04 D2   IR Emitter
+GPIO00 D3   Lock-up Reset (Pulldown)
+GPIO02 D4   Activation button
+GPIO14 D5   IR Reciever
+GPIO12 D6   Sonic control
+GPIO13 D7   Torch control
+GPIO15 D8   UV Torch control
+GPIO03 D9   RX
+GPIO01 D10  Serial TX
+A0          LM35
 
 ATtiny85
 0 --> Green LED
