@@ -70,7 +70,7 @@ void setup() {
 }
 
 void loop() {
-  if (dip0 == false && dip1 == false) {
+  if (digitalRead(dip0) == false && digitalRead(dip1) == false) {
     //normal mode
     digitalWrite(ledpin, random(2));
     if (random(11) < 2) {
@@ -80,13 +80,13 @@ void loop() {
       setfreq(7000 + random(1500));
     }
   }
-  if (dip0 == false && dip1 == true) {
+  if (digitalRead(dip0) == false && digitalRead(dip1) == true) {
     //Torch Mode
     setfreq(7000);
     digitalWrite(ledpin, HIGH);
     digitalWrite(uvpin, LOW);
   }
-  if (dip0 == true && dip1 == false) {
+  if (digitalRead(dip0) == true && digitalRead(dip1) == false) {
     //TV-B-Gone Mode
     setfreq(8000);
     digitalWrite(ledpin, random(2));
@@ -94,7 +94,7 @@ void loop() {
       digitalWrite(uvpin, !digitalRead(uvpin));
     }
   }
-  if (dip0 == true && dip1 == true) {
+  if (digitalRead(dip0) == true && digitalRead(dip1) == true) {
     //UV Torch Mode
     setfreq(8500);
     digitalWrite(uvpin, HIGH);

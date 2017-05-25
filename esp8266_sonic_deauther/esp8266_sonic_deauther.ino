@@ -158,7 +158,7 @@ void startWiFi(bool start) {
 }
 //============PUI============
 void DoSonic() {
-  if (button) {
+  if (digitalRead(button)) {
     /*
       if (dip0 == false && dip1 == false) {
       //normal mode
@@ -167,7 +167,7 @@ void DoSonic() {
       //Torch Mode
       }
     */
-    if (dip0 == true && dip1 == false) {
+    if (digitalRead(dip0) == true && digitalRead(dip1) == false) {
       //TV-B-Gone Mode
       sendTV();
     }
