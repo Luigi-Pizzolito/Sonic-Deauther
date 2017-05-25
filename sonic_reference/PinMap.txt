@@ -28,3 +28,7 @@ ATtiny85
 ESP8266
   Read Switches and decode.
     sendIR
+
+If more GPIO is needed ditch D9 as RX.
+If RX is needed use a single pin UART Solution
+(http://blog.thegaragelab.com/5-simple-ways-to-save-io-pins/)
