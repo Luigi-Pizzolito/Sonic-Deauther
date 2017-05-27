@@ -18,7 +18,8 @@ const PROGMEM unsigned int grundig1[22] = {550, 2600, 550, 450, 600, 450, 550, 5
 const PROGMEM unsigned int tv[67] = {9000, 4600, 550, 650, 550, 600, 550, 650, 550, 650, 550, 600, 550, 650, 500, 1750, 550, 650, 550, 1750, 600, 1750, 550, 1750, 550, 1750, 550, 1750, 550, 1750, 500, 700, 550, 1750, 500, 700, 550, 1750, 550, 650, 550, 600, 550, 1750, 550, 600, 550, 650, 500, 700, 550, 1750, 550, 650, 550, 1750, 500, 1800, 550, 650, 500, 1750, 550, 1750, 550, 1750, 550}; // UNKNOWN 1A2EEC3B
 int RECV_PIN = 14;
 IRrecv irrecv(RECV_PIN);
-IRsend irsend(4);
+//IRsend irsend(4);
+IRsend irsend(2);
 boolean recording = false;
 decode_results results;
 irparams_t save;        // A place to copy the interrupt state while decoding.
@@ -31,7 +32,7 @@ String IRccode;
 #include <FS.h>
 
 //I/O Stuff
-#define button 2
+#define button 0
 #define spin 12
 #define tpin 13
 #define uvpin 15
@@ -41,7 +42,7 @@ bool ts = false;
 bool tt = false;
 bool tuv = false;
 
-#define resetPin 0 /* <-- comment out or change if you need GPIO 4 for other purposes */
+#define resetPin 4 /* <-- comment out or change if you need GPIO 4 for other purposes */
 //#define USE_DISPLAY /* <-- uncomment that if you want to use the display */
 
 
@@ -170,6 +171,11 @@ void DoSonic() {
     if (buttonState == HIGH) {
       // if the current state is HIGH then the button
       // went from off to on:
+      Serial.println("Button Pressed");
+       Serial.print(" dip0: ");
+  Serial.print(digitalRead(dip0));
+  Serial.print("  dip1: ");
+  Serial.println(digitalRead(dip1));
       /*
       if (dip0 == false && dip1 == false) {
       //normal mode
@@ -180,6 +186,7 @@ void DoSonic() {
     */
     if (digitalRead(dip0) == true && digitalRead(dip1) == false) {
       //TV-B-Gone Mode
+      Serial.println("TVBG");
       sendTV();
     }
     /*
@@ -236,6 +243,7 @@ void sendIR() {
 }
 
 void sendTV() {
+  digitalWrite(spin, HIGH);
   irsend.begin();
   //irsend.sendRaw(tv, 67, 38);
   send(tv, 67);
@@ -314,6 +322,7 @@ void sendTV() {
   sendNEC(0x8E7152AD); //TOSHIBA
   Serial.println("finished TV-B-GONE");
   irrecv.enableIRIn();
+  digitalWrite(spin, LOW);
 }
 void pause() {
   delay(100);
@@ -642,6 +651,7 @@ void resetSettings() {
 
 void setup() {
   Serial.begin(115200, SERIAL_8N1, SERIAL_TX_ONLY);
+  pinMode(2, OUTPUT);
   pinMode(A0, INPUT);
   pinMode(button, INPUT);
   pinMode(dip0, INPUT);
@@ -652,6 +662,7 @@ void setup() {
   digitalWrite(spin, LOW);
   digitalWrite(tpin, LOW);
   digitalWrite(uvpin, LOW);
+  digitalWrite(2, LOW);
   if (debug) {
     delay(2000);
     Serial.println("\nStarting...\n");
@@ -671,7 +682,7 @@ void setup() {
 
 #ifdef resetPin
   pinMode(resetPin, INPUT_PULLUP);
-  if (digitalRead(resetPin) == HIGH) {
+  if (digitalRead(resetPin) == LOW) {
     settings.reset();
     Serial.println("Lockup reset!!");
   }

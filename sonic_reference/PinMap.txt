@@ -4,8 +4,8 @@ ESP8266
 GPIO16 D0   DIP0
 GPIO05 D1   DIP1
 GPIO04 D2   IR Emitter
-GPIO00 D3   Lock-up Reset (Pulldown)
-GPIO02 D4   Activation button
+GPIO00 D3   Activation button
+GPIO02 D4   Lock-up Reset (Pullup)
 GPIO14 D5   IR Reciever
 GPIO12 D6   Sonic control
 GPIO13 D7   Torch control
